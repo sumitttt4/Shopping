@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce Admin Panel</title>
+    <meta name="description" content="Production-ready e-commerce admin panel for managing products, orders, customers, and analytics" />
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Progressive Web App meta tags -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="E-commerce Admin" />
+    
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <style>
+      html {
+        visibility: hidden;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Show content after initial load -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        document.documentElement.style.visibility = 'visible';
+        document.documentElement.style.opacity = '1';
+      });
+    </script>
+  </body>
+</html>
