@@ -1,5 +1,6 @@
 # 🛒 E-Commerce Admin Panel
 
+<!-- Trigger deployment: Sep 13, 2025 -->
 A **production-ready** e-commerce admin panel built with React TypeScript frontend and Node.js Express backend. Features comprehensive product management, order processing, customer management, and real-time analytics.
 
 ![Project Status](https://img.shields.io/badge/Status-Production%20Ready-green)
