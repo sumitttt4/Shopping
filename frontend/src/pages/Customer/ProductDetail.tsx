@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import StarRating from '../../components/UI/StarRating';
+import ProductReviews from '../../components/Customer/ProductReviews';
 
 interface Product {
   id: number;
@@ -12,6 +14,19 @@ interface Product {
   images?: string[];
   features?: string[];
   specifications?: { [key: string]: string };
+  rating?: number;
+  reviewCount?: number;
+}
+
+interface Review {
+  id: string;
+  userId: string;
+  userName: string;
+  rating: number;
+  title: string;
+  comment: string;
+  date: string;
+  verified: boolean;
 }
 
 const ProductDetail: React.FC = () => {
@@ -21,6 +36,7 @@ const ProductDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -39,26 +55,28 @@ const ProductDetail: React.FC = () => {
       const mockProducts = {
         1: {
           id: 1,
-          name: 'Wireless Headphones',
-          price: 99.99,
-          description: 'Premium wireless headphones with noise cancellation and superior sound quality. Perfect for music lovers and professionals who demand the best audio experience.',
-          category: 'Electronics',
+          name: 'Basmati Rice (5kg)',
+          price: 450,
+          description: 'Premium quality basmati rice with long grains and aromatic fragrance. Perfect for biryanis, pulavs, and daily meals. Aged for authentic taste and texture.',
+          category: 'Groceries',
           stock: 25,
+          rating: 4.5,
+          reviewCount: 127,
           features: [
-            'Active Noise Cancellation',
-            '30-hour battery life',
-            'Bluetooth 5.0 connectivity',
-            'Premium build quality',
-            'Voice assistant support',
-            'Fast charging (15 min = 3 hours)'
+            'Premium Quality Basmati',
+            'Long Grain Rice',
+            'Aromatic Fragrance',
+            'Aged for Better Taste',
+            'Easy to Cook',
+            'Rich in Nutrients'
           ],
           specifications: {
-            'Battery Life': '30 hours',
-            'Connectivity': 'Bluetooth 5.0',
-            'Weight': '250g',
-            'Frequency Response': '20Hz - 20kHz',
-            'Charging Time': '2 hours',
-            'Warranty': '2 years'
+            'Weight': '5 kg',
+            'Type': 'Basmati Rice',
+            'Origin': 'India',
+            'Grain Length': 'Extra Long',
+            'Shelf Life': '12 months',
+            'Brand': 'Premium Choice'
           }
         },
         2: {
@@ -90,10 +108,12 @@ const ProductDetail: React.FC = () => {
       setProduct(mockProducts[productId as keyof typeof mockProducts] || {
         id: productId,
         name: `Product ${productId}`,
-        price: 49.99,
+        price: 199,
         description: 'This is a sample product description for demonstration purposes.',
         category: 'General',
         stock: 10,
+        rating: 4.2,
+        reviewCount: 45,
         features: ['Feature 1', 'Feature 2', 'Feature 3'],
         specifications: {
           'Brand': 'ShopHub',
@@ -101,6 +121,41 @@ const ProductDetail: React.FC = () => {
           'Warranty': '1 year'
         }
       });
+      
+      // Set mock reviews for all products
+      const mockReviews: Review[] = [
+        {
+          id: '1',
+          userId: 'user1',
+          userName: 'John Smith',
+          rating: 5,
+          title: 'Excellent product!',
+          comment: 'This product exceeded my expectations. Great quality and fast shipping. Highly recommend!',
+          date: '2024-01-20T10:00:00Z',
+          verified: true
+        },
+        {
+          id: '2',
+          userId: 'user2',
+          userName: 'Sarah Johnson',
+          rating: 4,
+          title: 'Good value for money',
+          comment: 'Solid product for the price. Does exactly what it promises. Would buy again.',
+          date: '2024-01-18T14:30:00Z',
+          verified: true
+        },
+        {
+          id: '3',
+          userId: 'user3',
+          userName: 'Mike Wilson',
+          rating: 5,
+          title: 'Best purchase this year',
+          comment: 'Amazing quality and the customer service was excellent. This is exactly what I was looking for.',
+          date: '2024-01-15T09:15:00Z',
+          verified: true
+        }
+      ];
+      setReviews(mockReviews);
     } finally {
       setLoading(false);
     }
@@ -207,10 +262,18 @@ const ProductDetail: React.FC = () => {
                 {product.category && (
                   <p className="text-lg text-gray-600">{product.category}</p>
                 )}
+                {product.rating && (
+                  <div className="flex items-center space-x-2 mt-2">
+                    <StarRating rating={product.rating} />
+                    <span className="text-sm text-gray-600">
+                      {product.rating.toFixed(1)} ({product.reviewCount || 0} review{(product.reviewCount || 0) !== 1 ? 's' : ''})
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center space-x-4">
-                <span className="text-3xl font-bold text-blue-600">${product.price.toFixed(2)}</span>
+                <span className="text-3xl font-bold text-blue-600">₹{product.price.toFixed(2)}</span>
                 <span className={`text-lg ${product.stock > 10 ? 'text-green-600' : 'text-orange-600'}`}>
                   {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
                 </span>
@@ -301,6 +364,24 @@ const ProductDetail: React.FC = () => {
           )}
         </div>
 
+        {/* Product Reviews Section */}
+        <div className="border-t border-gray-200">
+          <ProductReviews
+            productId={product.id}
+            reviews={reviews}
+            averageRating={product.rating || 0}
+            totalReviews={product.reviewCount || 0}
+            onAddReview={(newReview) => {
+              const review = {
+                ...newReview,
+                id: Date.now().toString(),
+                date: new Date().toISOString()
+              };
+              setReviews(prev => [review, ...prev]);
+            }}
+          />
+        </div>
+
         {/* Related Products Section */}
         <div className="mt-16">
           <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Products</h2>
@@ -316,7 +397,7 @@ const ProductDetail: React.FC = () => {
                   <h3 className="text-lg font-medium text-gray-900 mb-2">Related Product {i}</h3>
                   <p className="text-sm text-gray-500 mb-2">Electronics</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-blue-600">${(29.99 * i).toFixed(2)}</span>
+                    <span className="text-xl font-bold text-blue-600">₹{(150 * i).toFixed(2)}</span>
                     <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors duration-200">
                       Add to Cart
                     </button>

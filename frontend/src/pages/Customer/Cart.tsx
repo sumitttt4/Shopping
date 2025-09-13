@@ -15,22 +15,22 @@ const Cart: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
       id: 1,
-      name: 'Wireless Headphones',
-      price: 99.99,
+      name: 'Tata Tea Premium',
+      price: 480,
       quantity: 1,
       stock: 25
     },
     {
       id: 2,
-      name: 'Gaming Mouse',
-      price: 59.99,
+      name: 'Colgate Toothpaste',
+      price: 85,
       quantity: 2,
       stock: 30
     },
     {
       id: 3,
-      name: 'USB Cable',
-      price: 19.99,
+      name: 'Britannia Good Day Cookies',
+      price: 55,
       quantity: 1,
       stock: 50
     }
@@ -57,8 +57,8 @@ const Cart: React.FC = () => {
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 50 ? 0 : 9.99;
-  const tax = subtotal * 0.08; // 8% tax
+  const shipping = subtotal > 1500 ? 0 : 80; // Free shipping above ₹1500
+  const tax = subtotal * 0.18; // 18% GST
   const total = subtotal + shipping + tax;
 
   if (cartItems.length === 0) {
@@ -126,7 +126,7 @@ const Cart: React.FC = () => {
                         <Link to={`/products/${item.id}`} className="text-lg font-medium text-gray-900 hover:text-blue-600">
                           {item.name}
                         </Link>
-                        <p className="text-gray-600">${item.price.toFixed(2)} each</p>
+                        <p className="text-gray-600">₹{item.price.toFixed(2)} each</p>
                       </div>
 
                       {/* Quantity Controls */}
@@ -153,7 +153,7 @@ const Cart: React.FC = () => {
 
                       {/* Item Total */}
                       <div className="text-lg font-medium text-gray-900 w-20 text-right">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        ₹{(item.price * item.quantity).toFixed(2)}
                       </div>
 
                       {/* Remove Button */}
@@ -193,22 +193,22 @@ const Cart: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal</span>
-                  <span className="text-gray-900">${subtotal.toFixed(2)}</span>
+                  <span className="text-gray-900">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping</span>
                   <span className="text-gray-900">
-                    {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                    {shipping === 0 ? 'Free' : `₹${shipping.toFixed(2)}`}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Tax</span>
-                  <span className="text-gray-900">${tax.toFixed(2)}</span>
+                  <span className="text-gray-600">GST (18%)</span>
+                  <span className="text-gray-900">₹{tax.toFixed(2)}</span>
                 </div>
                 <div className="border-t border-gray-200 pt-3">
                   <div className="flex justify-between">
                     <span className="text-lg font-medium text-gray-900">Total</span>
-                    <span className="text-lg font-medium text-gray-900">${total.toFixed(2)}</span>
+                    <span className="text-lg font-medium text-gray-900">₹{total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -216,7 +216,7 @@ const Cart: React.FC = () => {
               {shipping > 0 && (
                 <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
                   <p className="text-sm text-yellow-800">
-                    Add ${(50 - subtotal).toFixed(2)} more to get free shipping!
+                    Add ₹{(1500 - subtotal).toFixed(2)} more to get free shipping!
                   </p>
                 </div>
               )}

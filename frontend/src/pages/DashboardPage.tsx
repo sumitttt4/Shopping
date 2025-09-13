@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { 
   ShoppingBagIcon, 
   CurrencyDollarIcon, 
   UserGroupIcon, 
   ChartBarIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
   ClockIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
@@ -167,9 +167,9 @@ const DashboardPage: React.FC = () => {
                     {formatNumber(stats.totalOrders)}
                     <span className={`ml-2 flex items-center text-sm ${stats.ordersChange > 0 ? 'text-success-600' : 'text-error-600'}`}>
                       {stats.ordersChange > 0 ? (
-                        <TrendingUpIcon className="w-4 h-4 mr-1" />
+                        <ArrowTrendingUpIcon className="w-4 h-4 mr-1" />
                       ) : (
-                        <TrendingDownIcon className="w-4 h-4 mr-1" />
+                        <ArrowTrendingDownIcon className="w-4 h-4 mr-1" />
                       )}
                       {Math.abs(stats.ordersChange)}%
                     </span>
@@ -215,9 +215,9 @@ const DashboardPage: React.FC = () => {
                     {formatCurrency(stats.revenue)}
                     <span className={`ml-2 flex items-center text-sm ${stats.revenueChange > 0 ? 'text-success-600' : 'text-error-600'}`}>
                       {stats.revenueChange > 0 ? (
-                        <TrendingUpIcon className="w-4 h-4 mr-1" />
+                        <ArrowTrendingUpIcon className="w-4 h-4 mr-1" />
                       ) : (
-                        <TrendingDownIcon className="w-4 h-4 mr-1" />
+                        <ArrowTrendingDownIcon className="w-4 h-4 mr-1" />
                       )}
                       {Math.abs(stats.revenueChange)}%
                     </span>

@@ -43,8 +43,8 @@ const Checkout: React.FC = () => {
     }
     // Fallback to mock cart items
     return [
-      { id: 1, name: 'Wireless Headphones', price: 99.99, quantity: 1 },
-      { id: 2, name: 'Gaming Mouse', price: 59.99, quantity: 2 },
+      { id: 1, name: 'Tata Tea Premium', price: 480, quantity: 1 },
+      { id: 2, name: 'Colgate Toothpaste', price: 85, quantity: 2 },
     ];
   });
 
@@ -71,8 +71,8 @@ const Checkout: React.FC = () => {
   });
 
   const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 50 ? 0 : 9.99;
-  const tax = subtotal * 0.08;
+  const shipping = subtotal > 1500 ? 0 : 80;
+  const tax = subtotal * 0.18;
   const total = subtotal + shipping + tax;
 
   const handleShippingSubmit = (e: React.FormEvent) => {
@@ -101,11 +101,29 @@ const Checkout: React.FC = () => {
       
       console.log('Order created:', orderData);
       
+      // Save order to user's order history
+      const orderNumber = `ORD-${Date.now()}`;
+      const newOrder = {
+        id: orderNumber,
+        orderNumber: orderNumber,
+        date: new Date().toISOString().split('T')[0],
+        status: 'pending' as const,
+        total: total,
+        items: orderItems.length,
+        details: orderData
+      };
+      
+      // Add to user's order history
+      const existingOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+      existingOrders.unshift(newOrder); // Add to beginning of array
+      localStorage.setItem('userOrders', JSON.stringify(existingOrders));
+      
       // Navigate to success page
       navigate('/order-success', { 
         state: { 
-          orderNumber: `ORD-${Date.now()}`,
-          total: total
+          orderNumber: orderNumber,
+          total: total,
+          orderDetails: orderData
         } 
       });
       
@@ -360,7 +378,7 @@ const Checkout: React.FC = () => {
                       <p className="text-sm font-medium text-gray-900">{item.name}</p>
                       <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                     </div>
-                    <span className="text-sm text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
+                    <span className="text-sm text-gray-900">₹{(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
@@ -368,22 +386,22 @@ const Checkout: React.FC = () => {
               <div className="border-t border-gray-200 pt-4 space-y-2">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal</span>
-                  <span className="text-gray-900">${subtotal.toFixed(2)}</span>
+                  <span className="text-gray-900">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping</span>
                   <span className="text-gray-900">
-                    {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                    {shipping === 0 ? 'Free' : `₹${shipping.toFixed(2)}`}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Tax</span>
-                  <span className="text-gray-900">${tax.toFixed(2)}</span>
+                  <span className="text-gray-600">GST (18%)</span>
+                  <span className="text-gray-900">₹{tax.toFixed(2)}</span>
                 </div>
                 <div className="border-t border-gray-200 pt-2">
                   <div className="flex justify-between">
                     <span className="text-lg font-medium text-gray-900">Total</span>
-                    <span className="text-lg font-medium text-gray-900">${total.toFixed(2)}</span>
+                    <span className="text-lg font-medium text-gray-900">₹{total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import StarRating from '../../components/UI/StarRating';
 
 interface Product {
   id: number;
@@ -9,6 +10,8 @@ interface Product {
   image?: string;
   category?: string;
   stock?: number;
+  rating?: number;
+  reviewCount?: number;
 }
 
 interface Category {
@@ -40,18 +43,26 @@ const ProductCatalog: React.FC = () => {
       console.error('Error fetching products:', error);
       // Set mock data for demo
       setProducts([
-        { id: 1, name: 'Wireless Headphones', price: 99.99, category: 'Electronics', stock: 25 },
-        { id: 2, name: 'Gaming Mouse', price: 59.99, category: 'Electronics', stock: 30 },
-        { id: 3, name: 'USB Cable', price: 19.99, category: 'Accessories', stock: 50 },
-        { id: 4, name: 'Phone Case', price: 29.99, category: 'Accessories', stock: 40 },
-        { id: 5, name: 'Bluetooth Speaker', price: 79.99, category: 'Electronics', stock: 20 },
-        { id: 6, name: 'Laptop Stand', price: 49.99, category: 'Office', stock: 15 },
-        { id: 7, name: 'Mechanical Keyboard', price: 129.99, category: 'Electronics', stock: 12 },
-        { id: 8, name: 'Desk Lamp', price: 39.99, category: 'Office', stock: 18 },
-        { id: 9, name: 'Wireless Charger', price: 34.99, category: 'Electronics', stock: 35 },
-        { id: 10, name: 'Monitor Stand', price: 69.99, category: 'Office', stock: 10 },
-        { id: 11, name: 'Tablet Case', price: 24.99, category: 'Accessories', stock: 28 },
-        { id: 12, name: 'USB Hub', price: 44.99, category: 'Electronics', stock: 22 },
+        { id: 1, name: 'Basmati Rice (5kg)', price: 450, category: 'Groceries', stock: 25, rating: 4.5, reviewCount: 127 },
+        { id: 2, name: 'Tata Tea Gold (1kg)', price: 480, category: 'Groceries', stock: 30, rating: 4.2, reviewCount: 89 },
+        { id: 3, name: 'Colgate Toothpaste', price: 85, category: 'Personal Care', stock: 50, rating: 4.1, reviewCount: 203 },
+        { id: 4, name: 'Dettol Hand Wash (200ml)', price: 95, category: 'Personal Care', stock: 40, rating: 4.3, reviewCount: 156 },
+        { id: 5, name: 'Amul Butter (500g)', price: 285, category: 'Dairy', stock: 20, rating: 4.4, reviewCount: 94 },
+        { id: 6, name: 'Fortune Sunflower Oil (1L)', price: 135, category: 'Cooking', stock: 15, rating: 4.0, reviewCount: 67 },
+        { id: 7, name: 'Parle-G Biscuits (1kg)', price: 120, category: 'Snacks', stock: 12, rating: 4.6, reviewCount: 143 },
+        { id: 8, name: 'Himalaya Face Cream', price: 175, category: 'Personal Care', stock: 18, rating: 3.9, reviewCount: 52 },
+        { id: 9, name: 'Maggi Noodles (12 pack)', price: 144, category: 'Instant Food', stock: 35, rating: 4.2, reviewCount: 118 },
+        { id: 10, name: 'Surf Excel Detergent (1kg)', price: 285, category: 'Household', stock: 10, rating: 4.1, reviewCount: 73 },
+        { id: 11, name: 'Cadbury Dairy Milk (165g)', price: 95, category: 'Snacks', stock: 28, rating: 4.0, reviewCount: 91 },
+        { id: 12, name: 'Red Label Tea (500g)', price: 240, category: 'Groceries', stock: 22, rating: 4.3, reviewCount: 85 },
+        { id: 13, name: 'Britannia Good Day Cookies', price: 55, category: 'Snacks', stock: 45, rating: 4.2, reviewCount: 112 },
+        { id: 14, name: 'Clinic Plus Shampoo (340ml)', price: 125, category: 'Personal Care', stock: 32, rating: 3.8, reviewCount: 76 },
+        { id: 15, name: 'Aashirvaad Atta (10kg)', price: 520, category: 'Groceries', stock: 18, rating: 4.4, reviewCount: 158 },
+        { id: 16, name: 'Nescafe Coffee (50g)', price: 165, category: 'Beverages', stock: 38, rating: 4.1, reviewCount: 93 },
+        { id: 17, name: 'Patanjali Honey (500g)', price: 295, category: 'Health', stock: 24, rating: 4.3, reviewCount: 67 },
+        { id: 18, name: 'Vim Dishwash Gel (500ml)', price: 85, category: 'Household', stock: 41, rating: 4.0, reviewCount: 124 },
+        { id: 19, name: 'Kissan Mixed Fruit Jam', price: 145, category: 'Spreads', stock: 27, rating: 3.9, reviewCount: 55 },
+        { id: 20, name: 'Ariel Washing Powder (1kg)', price: 275, category: 'Household', stock: 33, rating: 4.2, reviewCount: 98 },
       ]);
     } finally {
       setLoading(false);
@@ -67,11 +78,16 @@ const ProductCatalog: React.FC = () => {
       console.error('Error fetching categories:', error);
       // Set mock data for demo
       setCategories([
-        { id: 1, name: 'Electronics' },
-        { id: 2, name: 'Accessories' },
-        { id: 3, name: 'Office' },
-        { id: 4, name: 'Home & Garden' },
-        { id: 5, name: 'Sports & Outdoors' },
+        { id: 1, name: 'Groceries' },
+        { id: 2, name: 'Personal Care' },
+        { id: 3, name: 'Household' },
+        { id: 4, name: 'Snacks' },
+        { id: 5, name: 'Cooking' },
+        { id: 6, name: 'Dairy' },
+        { id: 7, name: 'Beverages' },
+        { id: 8, name: 'Health' },
+        { id: 9, name: 'Instant Food' },
+        { id: 10, name: 'Spreads' },
       ]);
     }
   };
@@ -200,8 +216,16 @@ const ProductCatalog: React.FC = () => {
                       {product.category && (
                         <p className="text-sm text-gray-500 mb-2">{product.category}</p>
                       )}
+                      {product.rating && (
+                        <div className="flex items-center space-x-1 mb-2">
+                          <StarRating rating={product.rating} size="sm" />
+                          <span className="text-xs text-gray-600">
+                            ({product.reviewCount || 0})
+                          </span>
+                        </div>
+                      )}
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xl font-bold text-blue-600">${product.price.toFixed(2)}</span>
+                        <span className="text-xl font-bold text-blue-600">₹{product.price.toFixed(2)}</span>
                         {product.stock !== undefined && (
                           <span className={`text-sm ${product.stock > 10 ? 'text-green-600' : 'text-orange-600'}`}>
                             {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}

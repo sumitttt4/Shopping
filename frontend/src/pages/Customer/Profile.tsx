@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import OrderHistory from '../../components/Customer/OrderHistory';
 
 interface User {
   id: number;
@@ -34,34 +35,44 @@ const CustomerProfile: React.FC = () => {
     const parsedUser = JSON.parse(userData);
     setUser(parsedUser);
 
-    // Mock order data
-    setOrders([
-      {
-        id: '1',
-        orderNumber: 'ORD-001',
-        date: '2024-01-15',
-        status: 'delivered',
-        total: 159.98,
-        items: 2
-      },
-      {
-        id: '2',
-        orderNumber: 'ORD-002',
-        date: '2024-01-20',
-        status: 'shipped',
-        total: 79.99,
-        items: 1
-      },
-      {
-        id: '3',
-        orderNumber: 'ORD-003',
-        date: '2024-01-25',
-        status: 'processing',
-        total: 199.97,
-        items: 3
+    // Fetch user's order history from localStorage or backend
+    const fetchOrderHistory = () => {
+      // Check if there are any completed orders in localStorage
+      const completedOrders = localStorage.getItem('userOrders');
+      if (completedOrders) {
+        setOrders(JSON.parse(completedOrders));
+      } else {
+        // Mock order data for demo
+        setOrders([
+          {
+            id: '1',
+            orderNumber: 'ORD-001',
+            date: '2024-01-15',
+            status: 'delivered',
+            total: 565,
+            items: 2
+          },
+          {
+            id: '2',
+            orderNumber: 'ORD-002',
+            date: '2024-01-20',
+            status: 'shipped',
+            total: 480,
+            items: 1
+          },
+          {
+            id: '3',
+            orderNumber: 'ORD-003',
+            date: '2024-01-25',
+            status: 'processing',
+            total: 1045,
+            items: 3
+          }
+        ]);
       }
-    ]);
+    };
 
+    fetchOrderHistory();
     setLoading(false);
   }, [navigate]);
 
@@ -69,17 +80,6 @@ const CustomerProfile: React.FC = () => {
     localStorage.removeItem('customerUser');
     localStorage.removeItem('customerToken');
     navigate('/');
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'delivered': return 'bg-green-100 text-green-800';
-      case 'shipped': return 'bg-blue-100 text-blue-800';
-      case 'processing': return 'bg-yellow-100 text-yellow-800';
-      case 'pending': return 'bg-gray-100 text-gray-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
   };
 
   if (loading) {
@@ -208,63 +208,7 @@ const CustomerProfile: React.FC = () => {
             {activeTab === 'orders' && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <h2 className="text-lg font-medium text-gray-900 mb-6">Order History</h2>
-                {orders.length === 0 ? (
-                  <div className="text-center py-8">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                      <span className="text-2xl text-gray-400">📦</span>
-                    </div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
-                    <p className="text-gray-600 mb-4">You haven't placed any orders yet.</p>
-                    <Link
-                      to="/products"
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                    >
-                      Start Shopping
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {orders.map((order) => (
-                      <div key={order.id} className="border border-gray-200 rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <div>
-                            <h3 className="text-lg font-medium text-gray-900">
-                              Order {order.orderNumber}
-                            </h3>
-                            <p className="text-sm text-gray-600">
-                              Placed on {new Date(order.date).toLocaleDateString()}
-                            </p>
-                          </div>
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-                              order.status
-                            )}`}
-                          >
-                            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="text-sm text-gray-600">
-                            {order.items} item{order.items !== 1 ? 's' : ''} • Total: ${order.total.toFixed(2)}
-                          </div>
-                          <div className="flex space-x-2">
-                            <Link
-                              to={`/orders/${order.id}`}
-                              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                            >
-                              View Details
-                            </Link>
-                            {order.status === 'delivered' && (
-                              <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-                                Reorder
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <OrderHistory orders={orders} />
               </div>
             )}
 
