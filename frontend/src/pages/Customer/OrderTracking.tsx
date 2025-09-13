@@ -122,8 +122,6 @@ const OrderTracking: React.FC = () => {
   };
 
   const getStatusIcon = (status: string, isActive: boolean = false) => {
-    const iconClass = isActive ? 'text-blue-600' : 'text-gray-400';
-    
     switch (status) {
       case 'pending':
         return <div className={`w-3 h-3 rounded-full ${isActive ? 'bg-yellow-500' : 'bg-gray-300'}`} />;

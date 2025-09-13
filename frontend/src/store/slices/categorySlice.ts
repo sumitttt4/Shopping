@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Category, CreateCategoryData, PaginatedResponse } from '@/types';
+import { Category } from '@/types';
 
 interface CategoryState {
   categories: Category[];

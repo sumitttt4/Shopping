@@ -21,7 +21,6 @@ interface ProductReviewsProps {
 }
 
 const ProductReviews: React.FC<ProductReviewsProps> = ({
-  productId,
   reviews,
   averageRating,
   totalReviews,

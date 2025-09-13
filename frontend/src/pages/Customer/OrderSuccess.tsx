@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface OrderDetails {
   orderNumber: string;
@@ -23,7 +23,6 @@ interface OrderDetails {
 }
 
 const OrderSuccess: React.FC = () => {
-  const location = useLocation();
   const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
 
   useEffect(() => {

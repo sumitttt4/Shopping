@@ -37,7 +37,7 @@ interface LowStockProduct {
 }
 
 const DashboardPage: React.FC = () => {
-  const [stats, setStats] = useState<DashboardStats>({
+  const [stats] = useState<DashboardStats>({
     totalProducts: 1234,
     totalOrders: 567,
     totalCustomers: 89,

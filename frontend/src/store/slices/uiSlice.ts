@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UIState, Notification, LoadingState } from '@/types';
+import { UIState, Notification } from '@/types';
 
 const initialState: UIState = {
   loading: {},

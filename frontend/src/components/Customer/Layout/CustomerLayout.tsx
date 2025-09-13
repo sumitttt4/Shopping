@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 const CustomerLayout: React.FC = () => {
-  const [cartItemCount, setCartItemCount] = useState(0);
+  const [cartItemCount] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
