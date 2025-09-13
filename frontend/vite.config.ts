@@ -37,8 +37,7 @@ export default defineConfig({
           'react-vendor': ['react', 'react-dom'],
           'router-vendor': ['react-router-dom'],
           'redux-vendor': ['@reduxjs/toolkit', 'react-redux'],
-          'chart-vendor': ['chart.js', 'react-chartjs-2', 'recharts'],
-          'ui-vendor': ['framer-motion', '@headlessui/react', '@heroicons/react']
+          'ui-vendor': ['@headlessui/react', '@heroicons/react']
         }
       }
     },

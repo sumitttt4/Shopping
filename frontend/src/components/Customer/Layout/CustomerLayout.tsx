@@ -278,6 +278,7 @@ const CustomerLayout: React.FC = () => {
                 <li><Link to="/shipping" className="text-gray-400 hover:text-white">Shipping Info</Link></li>
                 <li><Link to="/returns" className="text-gray-400 hover:text-white">Returns</Link></li>
                 <li><Link to="/faq" className="text-gray-400 hover:text-white">FAQ</Link></li>
+                <li><Link to="/admin/login" className="text-blue-400 hover:text-blue-300">Admin Login</Link></li>
               </ul>
             </div>
 
@@ -302,6 +303,8 @@ const CustomerLayout: React.FC = () => {
                 <Link to="/privacy" className="text-gray-400 hover:text-white text-sm">Privacy Policy</Link>
                 <Link to="/terms" className="text-gray-400 hover:text-white text-sm">Terms of Service</Link>
                 <Link to="/cookies" className="text-gray-400 hover:text-white text-sm">Cookie Policy</Link>
+                <span className="text-gray-600">|</span>
+                <Link to="/admin/login" className="text-blue-400 hover:text-blue-300 text-sm font-medium">Admin</Link>
               </div>
             </div>
           </div>
