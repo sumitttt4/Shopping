@@ -1,9 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 const CustomerLayout: React.FC = () => {
   const [cartItemCount] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  // Check login status on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('customerToken');
+    const userData = localStorage.getItem('customerUser');
+    
+    if (token && userData) {
+      const user = JSON.parse(userData);
+      setIsLoggedIn(true);
+      setUserName(`${user.firstName} ${user.lastName}`);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('customerToken');
+    localStorage.removeItem('customerUser');
+    setIsLoggedIn(false);
+    setUserName('');
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -56,6 +77,42 @@ const CustomerLayout: React.FC = () => {
 
             {/* Cart and Actions */}
             <div className="flex items-center space-x-4">
+              {/* Authentication Buttons */}
+              {!isLoggedIn ? (
+                <div className="hidden md:flex items-center space-x-3">
+                  <Link
+                    to="/login"
+                    className="text-gray-600 hover:text-gray-900 font-medium"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center space-x-3">
+                  <Link
+                    to="/profile"
+                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                  >
+                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-medium">{userName.charAt(0)}</span>
+                    </div>
+                    <span className="font-medium">{userName}</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="text-gray-600 hover:text-gray-900 font-medium"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+
               {/* Cart Button */}
               <Link
                 to="/cart"
@@ -123,6 +180,47 @@ const CustomerLayout: React.FC = () => {
               >
                 Contact
               </Link>
+              
+              {/* Mobile Authentication */}
+              <div className="border-t border-gray-200 pt-2">
+                {!isLoggedIn ? (
+                  <>
+                    <Link
+                      to="/login"
+                      className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="block px-3 py-2 text-blue-600 hover:text-blue-700 font-medium"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/profile"
+                      className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Profile ({userName})
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="block w-full text-left px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
             {/* Mobile Search */}
             <div className="px-4 py-2 border-t border-gray-200">

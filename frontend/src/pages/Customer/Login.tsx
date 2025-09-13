@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface LoginForm {
   email: string;
@@ -8,7 +8,6 @@ interface LoginForm {
 }
 
 const CustomerLogin: React.FC = () => {
-  const navigate = useNavigate();
   const [form, setForm] = useState<LoginForm>({
     email: '',
     password: '',
@@ -40,7 +39,7 @@ const CustomerLogin: React.FC = () => {
         localStorage.setItem('customerToken', userData.token);
         
         // Show success and redirect
-        navigate('/', { replace: true });
+        window.location.href = '/'; // Force page reload to update navbar
       } else {
         setError('Please enter both email and password');
       }
@@ -69,6 +68,14 @@ const CustomerLogin: React.FC = () => {
               create a new account
             </Link>
           </p>
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+            <p className="text-sm text-blue-800">
+              <strong>Demo Login:</strong> Use any email and password to sign in
+            </p>
+            <p className="text-xs text-blue-600 mt-1">
+              Example: user@demo.com / password123
+            </p>
+          </div>
         </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

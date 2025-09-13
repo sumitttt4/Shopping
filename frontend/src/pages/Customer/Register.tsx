@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface RegisterForm {
   firstName: string;
@@ -11,7 +11,6 @@ interface RegisterForm {
 }
 
 const CustomerRegister: React.FC = () => {
-  const navigate = useNavigate();
   const [form, setForm] = useState<RegisterForm>({
     firstName: '',
     lastName: '',
@@ -62,7 +61,7 @@ const CustomerRegister: React.FC = () => {
       localStorage.setItem('customerToken', userData.token);
       
       // Show success and redirect
-      navigate('/', { replace: true });
+      window.location.href = '/'; // Force page reload to update navbar
     } catch (err) {
       setErrors({ email: 'Registration failed. Please try again.' });
     } finally {
