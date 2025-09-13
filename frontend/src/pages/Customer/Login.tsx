@@ -62,12 +62,6 @@ const CustomerLogin: React.FC = () => {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
-              create a new account
-            </Link>
-          </p>
           <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
             <p className="text-sm text-blue-800">
               <strong>Demo Login:</strong> Use any email and password to sign in
@@ -151,8 +145,21 @@ const CustomerLogin: React.FC = () => {
             </button>
           </div>
 
-          <div className="text-center">
+          {/* Create Account Section */}
+          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
             <p className="text-sm text-gray-600">
+              Don't have an account?{' '}
+              <Link 
+                to="/register" 
+                className="font-medium text-blue-600 hover:text-blue-500 hover:underline"
+              >
+                Create a new account
+              </Link>
+            </p>
+          </div>
+
+          <div className="text-center mt-4">
+            <p className="text-xs text-gray-500">
               Demo: Use any email and password to sign in
             </p>
           </div>

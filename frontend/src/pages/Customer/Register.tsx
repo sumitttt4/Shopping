@@ -81,12 +81,6 @@ const CustomerRegister: React.FC = () => {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Create your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              sign in to your existing account
-            </Link>
-          </p>
         </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -217,8 +211,21 @@ const CustomerRegister: React.FC = () => {
             </button>
           </div>
 
-          <div className="text-center">
+          {/* Sign In Section */}
+          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
             <p className="text-sm text-gray-600">
+              Already have an account?{' '}
+              <Link 
+                to="/login" 
+                className="font-medium text-blue-600 hover:text-blue-500 hover:underline"
+              >
+                Sign in here
+              </Link>
+            </p>
+          </div>
+
+          <div className="text-center mt-4">
+            <p className="text-xs text-gray-500">
               Demo: Fill in any information to create an account
             </p>
           </div>

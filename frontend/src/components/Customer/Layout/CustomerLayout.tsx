@@ -77,24 +77,16 @@ const CustomerLayout: React.FC = () => {
 
             {/* Cart and Actions */}
             <div className="flex items-center space-x-4">
-              {/* Authentication Buttons */}
+              {/* Authentication Button */}
               {!isLoggedIn ? (
-                <div className="hidden md:flex items-center space-x-3">
-                  <Link
-                    to="/login"
-                    className="text-gray-600 hover:text-gray-900 font-medium"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
+                <Link
+                  to="/login"
+                  className="text-gray-600 hover:text-gray-900 font-medium"
+                >
+                  Sign In
+                </Link>
               ) : (
-                <div className="hidden md:flex items-center space-x-3">
+                <div className="flex items-center space-x-3">
                   <Link
                     to="/profile"
                     className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
@@ -102,11 +94,11 @@ const CustomerLayout: React.FC = () => {
                     <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
                       <span className="text-sm font-medium">{userName.charAt(0)}</span>
                     </div>
-                    <span className="font-medium">{userName}</span>
+                    <span className="font-medium hidden md:block">{userName}</span>
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="text-gray-600 hover:text-gray-900 font-medium"
+                    className="text-gray-600 hover:text-gray-900 font-medium text-sm"
                   >
                     Logout
                   </button>
@@ -184,22 +176,13 @@ const CustomerLayout: React.FC = () => {
               {/* Mobile Authentication */}
               <div className="border-t border-gray-200 pt-2">
                 {!isLoggedIn ? (
-                  <>
-                    <Link
-                      to="/login"
-                      className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Sign In
-                    </Link>
-                    <Link
-                      to="/register"
-                      className="block px-3 py-2 text-blue-600 hover:text-blue-700 font-medium"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Sign Up
-                    </Link>
-                  </>
+                  <Link
+                    to="/login"
+                    className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
                 ) : (
                   <>
                     <Link
